@@ -1,4 +1,4 @@
-# FastAPI Onion Architecture
+# Test task for secunda
 
 ## <a id="quick_start">Quick start</a> 🚀
 - Create a virtual environment using the command: `python -m venv venv`
@@ -13,11 +13,12 @@
 **.env**
 ```
 MODE=DEV
-DB_USER=postgres
-DB_PASS=postgres
+DB_USER=user
+DB_PASS=password
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=dev_db
+DB_NAME=test-db
+API_KEY=5252
 ```
 
 **.test.env**
@@ -32,8 +33,8 @@ DB_NAME=test_db
 ```
 
 ### Launching the application
-  - Using python: `python -m src`
-  - Using uvicorn: `uvicorn --port 8000 --host 127.0.0.1 src.main:app --reload`
+  - Using docker-compose: `docker-compose up`
+  - Using docker compose: `docker compose up`
 
 ### Alembic commands:
   - `alembic init -t async alembic`
