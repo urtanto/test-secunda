@@ -1,9 +1,13 @@
 __all__ = [
     'BaseModel',
-    'CompanyModel',
-    'UserModel',
+    'BuildingModel',
+    'OrganizationPhoneModel',
+    "ActivityModel",
+    "OrganizationModel"
 ]
 
 from src.models.base import BaseModel
-from src.models.company import CompanyModel
-from src.models.user import UserModel
+from src.models.building import BuildingModel
+from src.models.activity import ActivityModel
+from src.models.organization import OrganizationModel
+from src.models.organization_phone import OrganizationPhoneModel
