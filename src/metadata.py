@@ -1,25 +1,19 @@
+from src.utils.constans import Tags
+
 TAG_METADATA = [
     {
-        'name': 'User | v1',
-        'description': 'Operation with user v1.',
+        'name': Tags.ORGANIZATION_V0_1,
+        'description': 'Operation with organizations',
     },
     {
-        'name': 'Company | v1',
-        'description': 'Operation with company v1.',
-    },
-    {
-        'name': 'healthz',
+        'name': Tags.HEALTHZ,
         'description': 'Standard health check.',
     },
 ]
 
-TITLE = 'FastAPI Onion Architecture'
-DESCRIPTION = (
-    'Implemented on FastAPI.\n\n'
-    'Examples taken from the book - https://www.cosmicpython.com/book/chapter_06_uow.html.\n\n'
-    'For contact - https://t.me/kalyukov_ns'
-)
-VERSION = '0.0.1'
+TITLE = 'FastAPI Test'
+DESCRIPTION = 'FastAPI Test'
+VERSION = '0.1'
 
 ERRORS_MAP = {
     'mongo': 'Mongo connection failed',

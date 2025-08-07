@@ -117,14 +117,26 @@ async def transaction_session(db_engine: AsyncEngine) -> AsyncGenerator[AsyncSes
 
 @pytest_asyncio.fixture
 def fake_uow(transaction_session: AsyncSession) -> FakeUnitOfWork:
-    """Returns the test UnitOfWork for a particular test."""
+    """Fake UoW.
+
+    Yields
+    ------
+    the test UnitOfWork for a particular test
+
+    """
     _fake_uow = FakeUnitOfWork(transaction_session)
     yield _fake_uow
 
 
 @pytest_asyncio.fixture
 async def async_client(fake_uow: FakeUnitOfWork) -> AsyncGenerator[AsyncClient, None]:
-    """Returns async test client."""
+    """Returns async test client.
+
+    Yields
+    ------
+    client
+
+    """
     app.dependency_overrides[UnitOfWork] = lambda: fake_uow
     async with AsyncClient(app=app, base_url='http://test') as ac:
         yield ac

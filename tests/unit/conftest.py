@@ -26,7 +26,13 @@ async def setup_users(setup_companies: None, transaction_session: AsyncSession, 
 
 @pytest_asyncio.fixture
 def get_users(transaction_session: AsyncSession) -> AsyncFunc:
-    """Returns users existing within the session."""
+    """Get user.
+
+    Returns
+    -------
+    users existing within the session
+
+    """
     async def _get_users() -> Sequence[UserModel]:
         res: Result = await transaction_session.execute(select(UserModel))
         return res.scalars().all()

@@ -16,6 +16,8 @@ T = TypeVar('T', bound=Callable[..., Awaitable[Any]])
 
 @overload
 def transaction_mode(_func: T) -> T: ...
+
+
 @overload
 def transaction_mode(*, auto_flush: bool) -> Callable[[T], T]: ...
 
@@ -24,6 +26,11 @@ def transaction_mode(_func: T | None = None, *, auto_flush: bool = False) -> T |
     """Wraps the function in transaction mode.
     Checks if the UnitOfWork context manager is open.
     If not, then opens the context manager and opens a transaction.
+
+    Returns
+    -------
+        Transaction mode.
+
     """
 
     def decorator(func: T) -> T:
@@ -164,5 +171,11 @@ class BaseService(AbstractService):
             raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=details)
 
     def _get_related_repo(self) -> AbstractRepository:
-        """Returns the repository associated with the service."""
+        """Get the repository associated with the service.
+
+        Returns
+        -------
+        repo
+
+        """
         return getattr(self.uow, self._repo)

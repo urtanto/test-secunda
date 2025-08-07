@@ -66,6 +66,11 @@ def compare_dicts_and_db_models(
 ) -> bool:
     """Compares models from the database with expected dictionaries.
     Bring everything to the same Pydantic schema.
+
+    Returns
+    -------
+        result of comparison
+
     """
     if result is None or expected_result is None:
         return result == expected_result
@@ -79,7 +84,13 @@ def compare_dicts_and_db_models(
 
 
 def prepare_payload(response: Response, exclude: Sequence[str] | None = None) -> dict:
-    """Extracts the payload from the response."""
+    """Extracts the payload from the response.
+
+    Returns
+    -------
+    payload
+
+    """
     payload = response.json().get('payload')
     if payload is None:
         return {}
