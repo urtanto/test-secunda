@@ -1,56 +1,47 @@
-from uuid import UUID, uuid4
+from uuid import uuid4
 
-import pytest
-from sqlalchemy.exc import MultipleResultsFound
-
-from src.schemas.user import UserDB
-from tests.fixtures.db_mocks import USERS
+from src.schemas.organization import OrganizationDB
+from tests.fixtures.db_mocks import ORGANIZATIONS
 from tests.utils import BaseTestCase
 
 TEST_BASE_SERVICE_GET_BY_QUERY_ONE_OR_NONE_PARAMS: list[BaseTestCase] = [
     BaseTestCase(
-        data={'first_name': 'Elon'},
-        expected_data=UserDB(
-         first_name='Elon',
-         last_name='Musk',
-         middle_name=None,
-         company_id=UUID('b04e55bd-8431-4edd-8eb4-632099c0ea65'),
-         id=UUID('bb929d29-a8ef-4a8e-b998-9998984d8fd6'),
+        data={'id': ORGANIZATIONS[0]['id']},
+        expected_data=OrganizationDB(
+            id=ORGANIZATIONS[0]['id'],
+            name=ORGANIZATIONS[0]['name'],
+            building_id=ORGANIZATIONS[0]['building_id'],
+            created_at=ORGANIZATIONS[0]['created_at'],
         ),
     ),
     BaseTestCase(
-        data={'first_name': 'Liza'},
+        data={'id': uuid4()},
         expected_data=None,
-    ),
-    BaseTestCase(
-        data={'first_name': 'Ivan'},
-        expected_data=None,
-        expected_error=pytest.raises(MultipleResultsFound),
     ),
 ]
 
 TEST_BASE_SERVICE_GET_BY_QUERY_ALL_PARAMS: list[BaseTestCase] = [
-    BaseTestCase(data={'first_name': 'Elon'}, expected_data=[USERS[1]]),
-    BaseTestCase(data={'first_name': 'Liza'}, expected_data=[]),
-    BaseTestCase(data={'first_name': 'Ivan'}, expected_data=[USERS[0], USERS[2], USERS[3]]),
+    BaseTestCase(data={'id': ORGANIZATIONS[0]['id']}, expected_data=[ORGANIZATIONS[0]]),
+    BaseTestCase(data={'id': uuid4()}, expected_data=[]),
 ]
 
 TEST_BASE_SERVICE_UPDATE_ONE_BY_ID_PARAMS: list[BaseTestCase] = [
     BaseTestCase(
-        data={'_id': USERS[0]['id'], 'first_name': 'Liza'},
-        expected_data=UserDB(
-            first_name='Liza',
-            last_name='Ivanov',
-            middle_name='Ivanovich',
-            company_id=UUID('b04e55bd-8431-4edd-8eb4-632099c0ea65'),
-            id=UUID('3d3e784f-646a-4ad4-979c-dca5dcea2a28'),
+        data={
+            '_id': ORGANIZATIONS[0]['id'],
+            'name': 'test',
+        },
+        expected_data=OrganizationDB(
+            id=ORGANIZATIONS[0]['id'],
+            name='test',
+            building_id=ORGANIZATIONS[0]['building_id'],
+            created_at=ORGANIZATIONS[0]['created_at'],
         ),
     ),
 ]
 
 TEST_BASE_SERVICE_DELETE_BY_QUERY_PARAMS: list[BaseTestCase] = [
-    BaseTestCase(data={'id': USERS[0]['id']}, expected_data=USERS[1:]),
-    BaseTestCase(data={'first_name': 'Ivan'}, expected_data=[USERS[1]]),
-    BaseTestCase(data={'id': uuid4()}, expected_data=USERS),
+    BaseTestCase(data={'id': ORGANIZATIONS[0]['id']}, expected_data=ORGANIZATIONS[1:]),
+    BaseTestCase(data={'id': uuid4()}, expected_data=ORGANIZATIONS),
     BaseTestCase(data={}, expected_data=[]),
 ]

@@ -2,6 +2,7 @@
 
 import asyncio
 from collections.abc import AsyncGenerator
+from pathlib import Path
 
 import pytest
 import pytest_asyncio
@@ -32,8 +33,9 @@ async def create_test_db(event_loop: None) -> None:
 
     sqlalchemy_database_url = (
         f'postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASS}'
-        f'@{settings.DB_HOST}:{settings.DB_PORT}/'
+        f'@{settings.DB_HOST}:{settings.DB_PORT}/postgres'
     )
+
     nodb_engine = create_async_engine(
         sqlalchemy_database_url,
         echo=False,
@@ -69,6 +71,12 @@ async def db_engine(create_test_db: None) -> AsyncGenerator[AsyncEngine, None]:
         pool_size=50,
         max_overflow=100,
     ).execution_options(compiled_cache=None)
+
+    async with engine.begin() as conn:
+        with open(Path(__file__).resolve().parent.parent / "deploy" / "init-db" / "init-ltree.sql") as f:
+            query = f.read()
+            init_query = sql.text(query)
+            await conn.execute(init_query)
 
     yield engine
 

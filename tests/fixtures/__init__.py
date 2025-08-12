@@ -3,8 +3,8 @@
 __all__ = [
     'FakeBaseService',
     'FakeUnitOfWork',
-    'OrganizationService',
-    'UserService',
+    'OrganizationRepository',
+    # 'UserService',
     'db_mocks',
     'testing_cases',
 ]
@@ -12,9 +12,9 @@ __all__ = [
 from types import TracebackType
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.api.v1.services import OrganizationService, UserService
-from src.repositories import OrganizationRepository, UserRepository
+#
+# from src.api.v1.services import OrganizationService,
+from src.repositories import OrganizationRepository
 from src.utils.service import BaseService
 from src.utils.unit_of_work import UnitOfWork
 from tests.fixtures import db_mocks, testing_cases
@@ -30,8 +30,7 @@ class FakeUnitOfWork(UnitOfWork):
         self._session = session
 
     async def __aenter__(self) -> None:
-        self.company = OrganizationRepository(self._session)
-        self.user = UserRepository(self._session)
+        self.organization = OrganizationRepository(self._session)
 
     async def __aexit__(
         self,

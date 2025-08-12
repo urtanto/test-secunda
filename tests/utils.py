@@ -1,5 +1,6 @@
 """Contains helper functions for tests."""
-
+import enum
+import uuid
 from collections.abc import Callable, Iterable, Sequence
 from contextlib import AbstractContextManager, nullcontext
 from typing import Any, TypeVar
@@ -43,11 +44,11 @@ class RequestTestCase(BaseTestCase):
 
 
 async def bulk_save_models(
-    session: AsyncSession,
-    model: type[DeclarativeBase],
-    data: Iterable[dict[str, Any]],
-    *,
-    commit: bool = False,
+        session: AsyncSession,
+        model: type[DeclarativeBase],
+        data: Iterable[dict[str, Any]],
+        *,
+        commit: bool = False,
 ) -> None:
     """Bulk saves model objects to the database."""
     for values in data:
@@ -60,9 +61,9 @@ async def bulk_save_models(
 
 
 def compare_dicts_and_db_models(
-    result: Sequence[DeclarativeBase] | None,
-    expected_result: Sequence[dict] | None,
-    schema: type[BaseModel],
+        result: Sequence[DeclarativeBase] | None,
+        expected_result: Sequence[dict] | None,
+        schema: type[BaseModel],
 ) -> bool:
     """Compares models from the database with expected dictionaries.
     Bring everything to the same Pydantic schema.
@@ -81,6 +82,19 @@ def compare_dicts_and_db_models(
     equality_len = len(result_to_schema) == len(expected_result_to_schema)
     equality_obj = all(obj in expected_result_to_schema for obj in result_to_schema)
     return all((equality_len, equality_obj))
+
+
+def json_serializable(obj: Any) -> Any:
+    """Рекурсивно преобразует obj в структуру, пригодную для json."""
+    if isinstance(obj, dict):
+        return {key: json_serializable(val) for key, val in obj.items()}
+    if isinstance(obj, list | tuple | set):
+        return [json_serializable(val) for val in obj]
+    if isinstance(obj, enum.Enum):
+        return obj.value
+    if isinstance(obj, uuid.UUID):
+        return str(obj)
+    return obj
 
 
 def prepare_payload(response: Response, exclude: Sequence[str] | None = None) -> dict:

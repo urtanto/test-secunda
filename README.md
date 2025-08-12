@@ -36,6 +36,8 @@ DB_NAME=test_db
   - Using docker-compose: `docker-compose up`
   - Using docker compose: `docker compose up`
 
+*sql query with test data locates in [deploy](/deploy/test-data.sql)*
+
 ### Alembic commands:
   - `alembic init -t async alembic`
   - `alembic revision --autogenerate -m 'initial'`

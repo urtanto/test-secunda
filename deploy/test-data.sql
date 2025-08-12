@@ -2,7 +2,9 @@
 INSERT INTO activity (id, path, name)
 VALUES (gen_random_uuid(), 'cars.car.parts'::ltree, 'Запчасти'),
        (gen_random_uuid(), 'cars.car'::ltree, 'Легковые'),
+       (gen_random_uuid(), 'cars.truck'::ltree, 'Грузовые'),
        (gen_random_uuid(), 'food.milk'::ltree, 'Молочная продукция'),
+       (gen_random_uuid(), 'food.meat'::ltree, 'Мясная продукция'),
        (gen_random_uuid(), 'cars.car.accessories'::ltree, 'Аксессуары'),
        (gen_random_uuid(), 'cars'::ltree, 'Автомобили'),
        (gen_random_uuid(), 'food'::ltree, 'Еда');
@@ -51,15 +53,15 @@ INSERT INTO organization_activity (organization_id, activity_id)
 SELECT o.id,
        a.id
 FROM organization o
-         JOIN (VALUES ('ООО "Рога и Копыта"', 'Еда.Мясная'::ltree),
-                      ('ЗАО "Speedy Cars"', 'Автомобили.Легковые'::ltree),
-                      ('ООО "Молочный путь"', 'Еда.Молочная'::ltree),
-                      ('АО "Heavy Trucks"', 'Автомобили.Грузовые'::ltree),
-                      ('ИП "Spare Parts & Co"', 'Автомобили.Легковые.Запчасти'::ltree),
-                      ('ООО "Accessories Shop"', 'Автомобили.Легковые.Аксессуары'::ltree),
-                      ('ООО "Meat Lovers"', 'Еда.Мясная'::ltree),
-                      ('ООО "Meat Lovers"', 'Еда.Молочная'::ltree),
-                      ('ООО "FarAway Ltd"', 'Еда.Мясная'::ltree)) AS m(org_name, act_path)
+         JOIN (VALUES ('ООО "Рога и Копыта"', 'food.meat'::ltree),
+                      ('ЗАО "Speedy Cars"', 'cars.car'::ltree),
+                      ('ООО "Молочный путь"', 'food.milk'::ltree),
+                      ('АО "Heavy Trucks"', 'cars.truck'::ltree),
+                      ('ИП "Spare Parts & Co"', 'cars.car.parts'::ltree),
+                      ('ООО "Accessories Shop"', 'cars.car.accessories'::ltree),
+                      ('ООО "Meat Lovers"', 'food.meat'::ltree),
+                      ('ООО "Meat Lovers"', 'food.milk'::ltree),
+                      ('ООО "FarAway Ltd"', 'food.meat'::ltree)) AS m(org_name, act_path)
               ON o.name = m.org_name
          JOIN activity a
               ON a.path = m.act_path;

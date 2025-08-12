@@ -14,7 +14,7 @@ from tests.fixtures.testing_cases.service import (
     TEST_BASE_SERVICE_GET_BY_QUERY_ONE_OR_NONE_PARAMS,
     TEST_BASE_SERVICE_UPDATE_ONE_BY_ID_PARAMS,
 )
-from tests.fixtures.testing_cases.user_router import TEST_USER_ROUTE_CREATE_PARAMS, TEST_USER_ROUTE_GET_PARAMS
+from tests.fixtures.testing_cases.organization_router import TEST_USER_ROUTE_CREATE_PARAMS, TEST_USER_ROUTE_GET_PARAMS
 
 __all__ = (
     'TEST_BASE_SERVICE_DELETE_BY_QUERY_PARAMS',

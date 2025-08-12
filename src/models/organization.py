@@ -1,8 +1,9 @@
 import uuid
 from typing import TYPE_CHECKING
 
+import sqlalchemy as sa
 from sqlalchemy import ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, attributes, mapped_column, relationship
 
 from src.models import BaseModel
 from src.schemas import OrganizationDB
@@ -37,12 +38,13 @@ class OrganizationModel(BaseModel):
             building_id=self.building_id,
             created_at=self.created_at,
         )
+        insp = sa.inspect(self)
 
-        if self.building:
+        if insp.attrs.building.loaded_value is not attributes.NO_VALUE:
             organization.buildings = self.building.to_schema()
-        if self.phones:
+        if insp.attrs.phones.loaded_value is not attributes.NO_VALUE:
             organization.phones = [x.to_schema().number for x in self.phones]
-        if self.activities:
+        if insp.attrs.activities.loaded_value is not attributes.NO_VALUE:
             organization.activities = [x.to_schema().name for x in self.activities]
 
         return organization

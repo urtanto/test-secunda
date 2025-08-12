@@ -1,9 +1,15 @@
 """The package contains basic data for tests for the postgres database."""
 
-from tests.fixtures.db_mocks.companies import COMPANIES
-from tests.fixtures.db_mocks.users import USERS
+from tests.fixtures.db_mocks.activities import ACTIVITIES
+from tests.fixtures.db_mocks.buildings import BUILDINGS
+from tests.fixtures.db_mocks.organizations import ORGANIZATIONS
+from tests.fixtures.db_mocks.organization_phones import ORGANIZATION_PHONES
+from tests.fixtures.db_mocks.organization_activities import ORGANIZATION_ACTIVITIES
 
 __all__ = (
-    'COMPANIES',
-    'USERS',
+    'ACTIVITIES',
+    'BUILDINGS',
+    'ORGANIZATIONS',
+    'ORGANIZATION_PHONES',
+    'ORGANIZATION_ACTIVITIES',
 )
