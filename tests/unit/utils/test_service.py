@@ -10,6 +10,7 @@ from tests.utils import BaseTestCase, compare_dicts_and_db_models
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
     from src.models import OrganizationModel
 
 

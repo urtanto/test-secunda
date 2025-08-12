@@ -15,6 +15,7 @@ black = "^23.12.1"
 ruff = "^0.5.5"
 greenlet = "^3.0.3"
 sqlalchemy-utils = "^0.41.2"
+aiofiles = "^24.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.4"
@@ -22,6 +23,7 @@ pytest-dotenv = "^0.5.2"
 sqlalchemy-utils = "^0.41.2"
 async-asgi-testclient = "^1.4.11"
 pytest-asyncio = "0.21.1"
+aiofiles = "^24.1.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -59,13 +61,16 @@ ignore = [
     "D401", # non-imperative-mood
     "DOC402",
     "DOC501", # docstring-missing-exception
+    "DTZ005",
     "FAST002", # fast-api-non-annotated-dependency
     "FBT001",
     "INP001", # implicit-namespace-package
     "N805",
+    "RUF001",
     "RUF009", # function-call-in-dataclass-default-argument
     "S101", # assert
     "S608", # hardcoded-sql-expression
+    "SIM108",
     "TRY003"
 ]
 

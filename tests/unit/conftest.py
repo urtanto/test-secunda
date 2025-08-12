@@ -59,7 +59,7 @@ async def setup_buildings(transaction_session: AsyncSession, buildings: tuple[di
 async def setup_organizations(
         transaction_session: AsyncSession,
         organizations: tuple[dict],
-        setup_buildings: None
+        setup_buildings: None,
 ) -> None:
     """Creates organizations that will only exist within the session."""
     await bulk_save_models(transaction_session, OrganizationModel, organizations)
@@ -69,7 +69,7 @@ async def setup_organizations(
 async def setup_organizations_phones(
         transaction_session: AsyncSession,
         organizations_phones: tuple[dict],
-        setup_organizations: None
+        setup_organizations: None,
 ) -> None:
     """Creates organizations_phones that will only exist within the session."""
     await bulk_save_models(transaction_session, OrganizationPhoneModel, organizations_phones)
@@ -80,7 +80,7 @@ async def setup_organizations_activities(
         transaction_session: AsyncSession,
         organizations_activities: tuple[dict],
         setup_organizations: None,
-        setup_activities: None
+        setup_activities: None,
 ) -> None:
     """Creates organizations_activities that will only exist within the session."""
     await bulk_save_models(transaction_session, OrganizationActivityModel, organizations_activities)

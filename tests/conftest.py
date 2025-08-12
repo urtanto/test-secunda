@@ -1,13 +1,13 @@
 """Contains helper fixtures for setup tests infrastructure."""
-
 import asyncio
 from collections.abc import AsyncGenerator
 from pathlib import Path
 
+import aiofiles
 import pytest
 import pytest_asyncio
 import sqlalchemy
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from sqlalchemy import Result, sql
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 
@@ -72,11 +72,11 @@ async def db_engine(create_test_db: None) -> AsyncGenerator[AsyncEngine, None]:
         max_overflow=100,
     ).execution_options(compiled_cache=None)
 
-    async with engine.begin() as conn:
-        with open(Path(__file__).resolve().parent.parent / "deploy" / "init-db" / "init-ltree.sql") as f:
-            query = f.read()
-            init_query = sql.text(query)
-            await conn.execute(init_query)
+    async with engine.begin() as conn, aiofiles.open(
+            Path(__file__).resolve().parent.parent / 'deploy' / 'init-db' / 'init-ltree.sql') as f:
+        query = await f.read()
+        init_query = sql.text(query)
+        await conn.execute(init_query)
 
     yield engine
 
@@ -146,5 +146,6 @@ async def async_client(fake_uow: FakeUnitOfWork) -> AsyncGenerator[AsyncClient, 
 
     """
     app.dependency_overrides[UnitOfWork] = lambda: fake_uow
-    async with AsyncClient(app=app, base_url='http://test') as ac:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url='http://test') as ac:
         yield ac

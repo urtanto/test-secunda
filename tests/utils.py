@@ -85,7 +85,13 @@ def compare_dicts_and_db_models(
 
 
 def json_serializable(obj: Any) -> Any:
-    """Рекурсивно преобразует obj в структуру, пригодную для json."""
+    """Рекурсивно преобразует obj в структуру, пригодную для json.
+
+    Returns
+    -------
+        json serializable object
+
+    """
     if isinstance(obj, dict):
         return {key: json_serializable(val) for key, val in obj.items()}
     if isinstance(obj, list | tuple | set):
@@ -97,7 +103,7 @@ def json_serializable(obj: Any) -> Any:
     return obj
 
 
-def prepare_payload(response: Response, exclude: Sequence[str] | None = None) -> dict:
+def prepare_payload(response: Response | dict, exclude: Sequence[str] | None = None) -> dict | list:
     """Extracts the payload from the response.
 
     Returns
@@ -105,11 +111,21 @@ def prepare_payload(response: Response, exclude: Sequence[str] | None = None) ->
     payload
 
     """
-    payload = response.json().get('payload')
+    if isinstance(response, dict | list):
+        payload = response
+    else:
+        payload = response.json().get('payload')
+
     if payload is None:
         return {}
 
     if exclude is None:
+        return payload
+
+    if isinstance(payload, list):
+        for element in payload:
+            for key in exclude:
+                element.pop(key, None)
         return payload
 
     for key in exclude:

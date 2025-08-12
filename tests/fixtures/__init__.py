@@ -4,7 +4,6 @@ __all__ = [
     'FakeBaseService',
     'FakeUnitOfWork',
     'OrganizationRepository',
-    # 'UserService',
     'db_mocks',
     'testing_cases',
 ]
@@ -12,8 +11,7 @@ __all__ = [
 from types import TracebackType
 
 from sqlalchemy.ext.asyncio import AsyncSession
-#
-# from src.api.v1.services import OrganizationService,
+
 from src.repositories import OrganizationRepository
 from src.utils.service import BaseService
 from src.utils.unit_of_work import UnitOfWork
