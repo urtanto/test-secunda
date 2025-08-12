@@ -25,11 +25,12 @@ API_KEY=5252
 
 ```
 MODE=TEST
-DB_USER=postgres
-DB_PASS=postgres
+DB_USER=user
+DB_PASS=password
 DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=test_db
+DB_PORT=54322
+DB_NAME=testdb
+API_KEY=5252
 ```
 
 ### Launching the application
